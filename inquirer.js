@@ -81,6 +81,52 @@ const questionsMaster = {
             }
         ]
     },
+    filter: {
+        name: 'filter',
+        message: 'Show results only for some MAC addresses?',
+        type: 'list',
+        choices: [
+            {
+                name: 'Yes',
+                value: true,
+                short: 'Yes'
+            },
+            {
+                name: 'No',
+                value: false,
+                short: 'No'
+            }
+        ],
+        when: function (answers) {
+            return answers.type === 'presence'
+        }
+    },
+    macs: {
+        name: 'macs',
+        message: 'Comma-separated list of MAC addresses to look for in Presence stream:',
+        when: function (answers) {
+            if (answers.filter === undefined) {
+                return false
+            } else {
+                return answers.filter
+            }
+        },
+        validate: function (value) {
+            if (value.length < '7c:53:3e:02:1f:34'.length) {
+                return 'Please enter at least one valid MAC address';
+            } else {
+                // From https://stackoverflow.com/a/4260534
+                const macRegEx = /^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$/;
+                const macArray = value.split(',');
+                for (const mac of macArray) {
+                    if (!macRegEx.test(mac)) {
+                        return 'Please enter only valid MAC addresses'
+                    }
+                }
+                return true
+            }
+        }
+    },
     alias: {
         name: 'alias',
         message: 'Name for a preset (alphanumeric characters only, please):',
@@ -98,9 +144,14 @@ function askForMissingDetails(params, save) {
     const questions = [];
 
     for (const key in params) {
-        if (params.hasOwnProperty(key) && params[key] === undefined) {
+        if (params.hasOwnProperty(key) && params[key] === undefined && key !== 'macs') {
             questions.push(questionsMaster[key]);
         }
+    }
+
+    if ((params['type'] === 'presence' || params['type'] === undefined) && params['macs'] === undefined) {
+        questions.push(questionsMaster['filter']);
+        questions.push(questionsMaster['macs']);
     }
 
     if (save) {

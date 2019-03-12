@@ -16,6 +16,7 @@ program
     .option('-e, --env <env>', 'environment: ' + chalk.blue('test') + ', ' + chalk.blue('accept') + ' or ' + chalk.blue('production'), /^(test|accept|production)$/i)
     .option('-s, --source <source>', 'source of data for a stream: Unique ID, UUID, MAC address, etc.')
     .option('-t, --type <type>', 'type of a stream: ' + chalk.blue('presence') + ', ' + chalk.blue('health') + ', ' + chalk.blue('accelerometer') + ', ' + chalk.blue('sensor') + ', ' + chalk.blue('button') + ', ' + chalk.blue('telemetry') + ' or ' + chalk.blue('all'), /^(presence|health|accelerometer|sensor|button|telemetry|all)$/i)
+    .option('-m, --macs <macs>', 'comma-separated list of MAC addresses to look for in Presence stream')
     .option('-d, --dont-save', 'do not ask for saving a config')
     .option('-c, --clear', 'remove all saved configs');
 
@@ -64,8 +65,6 @@ program.on('command:*', function () {
 
 program.parse(process.argv);
 
-console.log(`Node version: ${process.version}`);
-
 if (program.clear) {
     conf.clear();
     console.log('All saved configs have been removed.');
@@ -79,7 +78,8 @@ if (manualMode) {
         apikey: program.apikey,
         env: program.env,
         type: program.type,
-        source: program.source
+        source: program.source,
+        macs: program.macs
     }
 
     let answers = inquirer.askForMissingDetails(streamParameters, save);
