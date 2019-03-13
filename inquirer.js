@@ -104,6 +104,7 @@ const questionsMaster = {
                 short: 'No'
             }
         ],
+        default: 1, // Index of the choices array
         when: function (answers) {
             return answers.type === 'presence'
         }
