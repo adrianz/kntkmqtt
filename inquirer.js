@@ -37,7 +37,14 @@ const questionsMaster = {
     },
     source: {
         name: 'source',
-        message: 'Data source:'
+        message: 'Data source:',
+        when: function (answers) {
+            if (answers.type === 'telemetry') {
+                return false
+            } else {
+                return true
+            }
+        }
     },
     type: {
         name: 'type',
@@ -115,7 +122,6 @@ const questionsMaster = {
             if (value.length < '7c:53:3e:02:1f:34'.length) {
                 return 'Please enter at least one valid MAC address';
             } else {
-                // From https://stackoverflow.com/a/4260534
                 const macRegEx = /^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$/;
                 const macArray = value.split(',');
                 for (const mac of macArray) {

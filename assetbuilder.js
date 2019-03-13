@@ -61,14 +61,18 @@ function getCompanyKey(env, apiKey) {
     return axios.get(`${url}/manager/me`, { headers }).then(response => {
         let companyId = response.data.companyId;
         console.log(`${chalk.green('✔︎')} Fetched companyId ${companyId}`);
-        return companyId
-    }).catch(() => {
-        return ""
+        return companyId;
+    }).catch(function (error) {
+        console.error(chalk.red('Something went wrong while requesting data from Kontakt.io API…'));
+        console.error(error);
+        process.exit(1);
     })
 }
 
 function getMissingCompanyId(missingData) {
     if (missingData.type === 'telemetry' && (!missingData.source || missingData.source === '')) {
+        // TODO: This is a bit problematic, since Env & API Key can be provided via
+        //       CLI parameters, so they won't be part of the missingData
         return getCompanyKey(missingData.env, missingData.apikey);
     } else
         return Promise.resolve(missingData.source);
