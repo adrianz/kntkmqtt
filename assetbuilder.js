@@ -15,6 +15,7 @@ function makeTopic(type, source) {
         case 'sensor':
         case 'button':
         case 'all':
+        case 'location':
             return '/stream/' + source + '/' + type;
         case 'telemetry':
             return type + '/' + source

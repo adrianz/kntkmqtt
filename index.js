@@ -15,7 +15,7 @@ program
     .option('-a, --apikey <apikey>', 'API key')
     .option('-e, --env <env>', 'environment: ' + chalk.blue('test') + ', ' + chalk.blue('accept') + ' or ' + chalk.blue('production'), /^(test|accept|production)$/i)
     .option('-s, --source <source>', 'source of data for a stream: Unique ID, UUID, MAC address, etc.')
-    .option('-t, --type <type>', 'type of a stream: ' + chalk.blue('presence') + ', ' + chalk.blue('health') + ', ' + chalk.blue('accelerometer') + ', ' + chalk.blue('sensor') + ', ' + chalk.blue('button') + ', ' + chalk.blue('telemetry') + ' or ' + chalk.blue('all'), /^(presence|health|accelerometer|sensor|button|telemetry|all)$/i)
+    .option('-t, --type <type>', 'type of a stream: ' + chalk.blue('presence') + ', ' + chalk.blue('health') + ', ' + chalk.blue('accelerometer') + ', ' + chalk.blue('sensor') + ', ' + chalk.blue('button') + ', ' + chalk.blue('telemetry') + ' or ' + chalk.blue('all'), /^(presence|health|accelerometer|sensor|button|telemetry|all|location)$/i)
     .option('-m, --macs <macs>', 'comma-separated list of MAC addresses to look for in Presence stream')
     .option('-d, --dont-save', 'do not ask for saving a config')
     .option('-c, --clear', 'remove all saved configs');

@@ -85,6 +85,11 @@ const questionsMaster = {
                 name: 'Complete Telemetry data from a all Beacons belonging to a given Company',
                 value: 'telemetry',
                 short: 'Company Telemetry'
+            },
+            {
+                name: "Beacon's location",
+                value: 'location',
+                short: 'Location'
             }
         ]
     },
