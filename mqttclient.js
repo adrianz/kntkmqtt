@@ -16,16 +16,16 @@ function startStream(streamConfig) {
     const client = mqtt.connect(broker, connectionOptions);
 
     client.on('connect', function(connack) {
-        console.log('Connected to Kontakt.io MQTT broker')
-        console.log(connack);
+        console.log('Sucessfully connected to Kontakt.io MQTT broker')
+        // console.log(connack);
         client.subscribe(streamTopic, function (error, granted) {
             if (!error) {
                 console.log('Subscribing to ' + streamTopic + '…');
-                console.log(granted);
+                // console.log(granted);
                 if (granted[0].qos > 100) {
                     client.emit('error', chalk.red(`✘ Invalid MQTT topic`));
                 }
-                console.log('Subscribed, waiting for messages…');
+                console.log('Subscribed with Quality of Service level ' + granted[0].qos + ', waiting for messages…');
             } else {
                 console.error('Something went wrong:');
                 console.error(error);
