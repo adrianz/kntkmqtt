@@ -52,7 +52,7 @@ function startStream(streamConfig) {
         console.log('Message #' + chalk.bold.yellow(messageCounter) + ' from ' + topic);
         console.log('Received on ' + Date());
         console.log('=================================================\n');
-        previousMessage = presenter.handle(message, streamConfig.type, previousMessage);
+        previousMessage = presenter.handle(message, streamConfig, previousMessage);
     });
 }
 

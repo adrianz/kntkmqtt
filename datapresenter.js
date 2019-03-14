@@ -39,16 +39,22 @@ function showDynamicStreamData(data, previousData) {
     
 }
 
-function handle(message, streamType, previousMessage) {
+function handle(message, streamConfig, previousMessage) {
     const jsonString = message.toString();
     const json = JSON.parse(jsonString);
 
-    switch (streamType) {
+    switch (streamConfig.type) {
         case 'presence':
-            if (semver.gte(process.version, '10.0.0')) {
-                console.table(json)
+            let results = (streamConfig.macs !== undefined && streamConfig.macs.size > 0) ? json.filter(m => streamConfig.macs.has(m.deviceAddress)) : json
+            results.sort((a, b) => a.deviceAddress.localeCompare(b.deviceAddress))
+            if (json.length === 0) {
+                console.log("Empty message")
+            } else if (results.length === 0) {
+                console.log("No devices with desired MAC addresses in this message")
+            } else if (semver.gte(process.version, '10.0.0')) {
+                console.table(results)
             } else {
-                console.log(json);
+                console.log(results);
             }
             break;
         case 'health':

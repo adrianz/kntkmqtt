@@ -31,6 +31,9 @@ program
         } else {
             console.log(chalk.green('✔︎ Config found, starting a stream:'));
             manualMode = false;
+            if (savedConfig.macs !== undefined) {
+                savedConfig.macs = new Set(savedConfig.macs.split(','));
+            }
             mqttClient.startStream(savedConfig);
         }
     });
@@ -59,7 +62,7 @@ program
     });
 
 program.on('command:*', function () {
-    console.error(chalk.red('Invalid command: ' + program.args.join(' ')) + '\nSee ' + chalk.yellow.bold('--help') + ' for a list of available commands.');
+    console.error(chalk.red('Invalid command: ' + program.args.join(' ')) + '\nSee ' + chalk.yellow.bold('--help') + ' for a list of all available commands.');
     process.exit(1);
 });
 
@@ -98,6 +101,10 @@ if (manualMode) {
 
         if (save) {
             conf.set(missingData['alias'], streamParameters)
+        }
+
+        if (streamParameters.macs !== undefined) {
+            streamParameters.macs = new Set(streamParameters.macs.split(','));
         }
 
         mqttClient.startStream(streamParameters);
