@@ -139,6 +139,24 @@ const questionsMaster = {
             }
         }
     },
+    protocol: {
+        name: 'protocol',
+        message: 'Select transport protocol',
+        type: 'list',
+        choices: [
+            {
+                name: 'MQTT',
+                value: 'mqtt',
+                short: 'MQTT'
+            },
+            {
+                name: 'WebSocket',
+                value: 'ws',
+                short: 'WebSocket'
+            }
+        ],
+        default: 0
+    },
     alias: {
         name: 'alias',
         message: 'Name for a preset (alphanumeric characters only, please):',

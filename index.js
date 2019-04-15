@@ -17,6 +17,7 @@ program
     .option('-s, --source <source>', 'source of data for a stream: Unique ID, UUID, MAC address, etc.')
     .option('-t, --type <type>', 'type of a stream: ' + chalk.blue('presence') + ', ' + chalk.blue('health') + ', ' + chalk.blue('accelerometer') + ', ' + chalk.blue('sensor') + ', ' + chalk.blue('button') + ', ' + chalk.blue('telemetry') + ' or ' + chalk.blue('all'), /^(presence|health|accelerometer|sensor|button|telemetry|all|location)$/i)
     .option('-m, --macs <macs>', 'comma-separated list of MAC addresses to look for in Presence stream')
+    .option('-p, --protocol', 'select transport protocol: ' + chalk.blue('mqtt') + ' (default) or ' + chalk.blue('ws'))
     .option('-d, --dont-save', 'do not ask for saving a config')
     .option('-c, --clear', 'remove all saved configs');
 
@@ -82,7 +83,8 @@ if (manualMode) {
         env: program.env,
         type: program.type,
         source: program.source,
-        macs: program.macs
+        macs: program.macs,
+        protocol: program.protocol
     }
 
     let answers = inquirer.askForMissingDetails(streamParameters, save);

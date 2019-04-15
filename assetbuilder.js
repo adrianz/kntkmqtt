@@ -25,14 +25,36 @@ function makeTopic(type, source) {
     }
 }
 
-function makeStreamURL(env) {
+function makeStreamURL(protocol, env) {
+    let components = {
+        proto: '',
+        host: ''
+        // port: ''
+    }
+
+    switch (protocol) {
+        case 'mqtt':
+            components.proto = 'mqtts';
+            components.host = 'mqtt.kontakt.io:8083';
+            // components.port = 8083;
+            break;
+        case 'ws':
+            components.proto = 'wss';
+            components.host = 'mqtt.kontakt.io:443/mqtt';
+            // components.port = 443;
+            break;
+        default:
+            console.error(chalk.red('☢︎ Unknown protocol ☢︎'));
+            process.exit(1);
+    }
+
     switch (env) {
         case 'production':
-            return 'mqtts://mqtt.kontakt.io:8083';
+            return `${components.proto}://${components.host}`;
         case 'accept':
-            return 'mqtts://acceptmqtt.kontakt.io:8083';
+            return `${components.proto}://accept${components.host}`;
         case 'test':
-            return 'mqtts://testmqtt.kontakt.io:8083';
+            return `${components.proto}://test${components.host}`;
         default:
             console.error(chalk.red('☢︎ Unknown environment ☢︎'));
             process.exit(1);

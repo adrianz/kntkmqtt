@@ -10,7 +10,7 @@ function startStream(streamConfig) {
         password: streamConfig.apikey
     }
 
-    const broker = assetBuilder.makeStreamURL(streamConfig.env);
+    const broker = assetBuilder.makeStreamURL(streamConfig.protocol, streamConfig.env);
     const streamTopic = assetBuilder.makeTopic(streamConfig.type, streamConfig.source);
 
     const client = mqtt.connect(broker, connectionOptions);
